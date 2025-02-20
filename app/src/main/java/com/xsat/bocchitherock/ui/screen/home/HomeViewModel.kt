@@ -1,4 +1,4 @@
-package com.xsat.bocchitherock.ui.ui.screen.home
+package com.xsat.bocchitherock.ui.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

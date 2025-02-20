@@ -27,8 +27,8 @@ fun Search(
     modifier: Modifier = Modifier
 ) {
     SearchBar(
-        query = "",
-        onQueryChange = {},
+        query = query,
+        onQueryChange = onQueryChange,
         onSearch = {},
         active = false,
         onActiveChange = {},
@@ -47,7 +47,7 @@ fun Search(
             containerColor = MaterialTheme.colorScheme.background
         ),
         modifier = modifier
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 8.dp)
             .fillMaxWidth()
             .heightIn(min = 48.dp)
     ) {

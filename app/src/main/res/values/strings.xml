@@ -2,4 +2,5 @@
     <string name="app_name">BocchiTheRock</string>
     <string name="placeholder_search">Mau cari karakter siapa?</string>
     <string name="title_activity_bocchi_app">BocchiApp</string>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>
