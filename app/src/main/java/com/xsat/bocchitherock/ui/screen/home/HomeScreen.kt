@@ -9,9 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.xsat.bocchitherock.data.BocchiRepository
 import com.xsat.bocchitherock.ui.components.BocchiListItem
 import com.xsat.bocchitherock.ui.components.Search
@@ -19,7 +21,8 @@ import com.xsat.bocchitherock.ui.theme.BocchiTheRockTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeActivity(
+fun HomeScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(BocchiRepository()))
 ) {
@@ -35,7 +38,7 @@ fun HomeActivity(
             TopAppBar(
                 title = { Text(text = "Bocchi The Rock") },
                 actions = {
-                    IconButton(onClick = { /* TODO: Tambahkan Aksi Profile */ }) {
+                    IconButton(onClick = { navController.navigate("about") }) {
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Profile",
@@ -60,7 +63,9 @@ fun HomeActivity(
                         photoUrl = bocchi.photoUrl,
                         detail = bocchi.detail,
                         modifier = Modifier.fillMaxWidth(),
-                        navigateToDetail = { /* TODO: Tambahkan Aksi Navigasi */ }
+                        navigateToDetail = {
+                            navController.navigate("detail/${bocchi.name}/${bocchi.photoUrl}/${bocchi.detail}")
+                        }
                     )
                 }
             }
@@ -70,8 +75,8 @@ fun HomeActivity(
 
 @Preview(showBackground = true)
 @Composable
-fun HomeActivityPreview() {
+fun HomeScreenPreview() {
     BocchiTheRockTheme {
-        HomeActivity()
+        HomeScreen(navController = NavController(LocalContext.current))
     }
 }

@@ -22,13 +22,13 @@ fun BocchiListItem(
     photoUrl: String,
     detail: String,
     modifier: Modifier = Modifier,
-    navigateToDetail: (Int) -> Unit
+    navigateToDetail: () -> Unit
 ) {
     Card (
         modifier = modifier
             .padding(start = 8.dp, end = 8.dp, top = 8.dp)
             .fillMaxWidth()
-            .clickable { /* TODO */ },
+            .clickable {  navigateToDetail() }
     ){
         Row (modifier = modifier.padding(8.dp)) {
             AsyncImage(
