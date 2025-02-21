@@ -43,7 +43,7 @@ fun HomeScreen(
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Profile",
-                            modifier = modifier.size(40.dp)
+                            modifier = modifier.size(32.dp)
                         )
                     }
                 }
@@ -55,14 +55,14 @@ fun HomeScreen(
             )
 
             LazyColumn(
-                state = listState
+                state = listState,
+                contentPadding = PaddingValues(bottom = 18.dp)
             ) {
                 items(bocchis.value.size) { index ->
                     val bocchi = bocchis.value[index]
                     BocchiListItem(
                         name = bocchi.name,
                         photoUrl = bocchi.photoUrl,
-                        detail = bocchi.detail,
                         modifier = Modifier.fillMaxWidth(),
                         navigateToDetail = {
                             navController.navigate("detail/${bocchi.id}")
