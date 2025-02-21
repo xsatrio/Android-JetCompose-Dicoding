@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.xsat.bocchitherock.ui.navigation.Screen
 import com.xsat.bocchitherock.ui.screen.about.AboutScreen
 import com.xsat.bocchitherock.ui.screen.detail.DetailScreen
 import com.xsat.bocchitherock.ui.screen.home.HomeScreen
@@ -28,20 +29,17 @@ fun MainApp() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = Screen.Home.route
     ) {
-        composable("home") {
+        composable(Screen.Home.route) {
             HomeScreen(navController)
         }
-        composable("about") {
+        composable(Screen.About.route) {
             AboutScreen(onBackClick = { navController.popBackStack() })
         }
-        composable("detail/{name}/{photoUrl}/{detail}") { backStackEntry ->
-            val name = backStackEntry.arguments?.getString("name") ?: ""
-            val photoUrl = backStackEntry.arguments?.getString("photoUrl") ?: ""
-            val detail = backStackEntry.arguments?.getString("detail") ?: ""
-
-            DetailScreen(name, photoUrl, detail, onBackClick = { navController.popBackStack() })
+        composable(Screen.DetailBocchi.route) {
+            val bocchiId = it.arguments?.getString("bocchiId") ?: ""
+            DetailScreen(id = bocchiId, onBackClick = { navController.popBackStack() })
         }
     }
 }

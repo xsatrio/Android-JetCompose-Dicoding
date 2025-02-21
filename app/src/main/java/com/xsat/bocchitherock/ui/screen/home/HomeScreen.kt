@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.xsat.bocchitherock.data.BocchiRepository
 import com.xsat.bocchitherock.ui.components.BocchiListItem
 import com.xsat.bocchitherock.ui.components.Search
+import com.xsat.bocchitherock.ui.navigation.Screen
 import com.xsat.bocchitherock.ui.theme.BocchiTheRockTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +39,7 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text(text = "Bocchi The Rock") },
                 actions = {
-                    IconButton(onClick = { navController.navigate("about") }) {
+                    IconButton(onClick = { navController.navigate(Screen.About.route) }) {
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Profile",
@@ -64,7 +65,7 @@ fun HomeScreen(
                         detail = bocchi.detail,
                         modifier = Modifier.fillMaxWidth(),
                         navigateToDetail = {
-                            navController.navigate("detail/${bocchi.name}/${bocchi.photoUrl}/${bocchi.detail}")
+                            navController.navigate("detail/${bocchi.id}")
                         }
                     )
                 }

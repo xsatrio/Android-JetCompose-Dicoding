@@ -19,54 +19,16 @@ import com.xsat.bocchitherock.ui.theme.BocchiTheRockTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
-    name: String,
-    photoUrl: String,
-    detail: String,
+    id: String,
     onBackClick: () -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { Text(text = name) },
-            navigationIcon = {
-                IconButton(onClick = onBackClick) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back"
-                    )
-                }
-            }
-        )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Top
-        ) {
-            AsyncImage(
-                model = photoUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(100.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = detail,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Justify
-            )
-        }
-    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DetailScreenPreview() {
     BocchiTheRockTheme {
-        DetailScreen(name = "Bocchi", photoUrl = "1", detail = "Detail bocchi", onBackClick = {})
+        DetailScreen(id = "1", onBackClick = {})
     }
 }
