@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.xsat.bocchitherock.data.BocchiRepository
 import com.xsat.bocchitherock.model.Bocchi
+import com.xsat.bocchitherock.ui.screen.detail.DetailViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -22,14 +23,12 @@ class HomeViewModel(private val repository: BocchiRepository) : ViewModel() {
     }
 }
 
-class ViewModelFactory(private val repository: BocchiRepository) :
-    ViewModelProvider.NewInstanceFactory() {
-
-    @Suppress("UNCHECKED_CAST")
+class ViewModelFactory(private val repository: BocchiRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(repository) as T
+        return when {
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> HomeViewModel(repository) as T
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(repository) as T
+            else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }
-        throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
 }

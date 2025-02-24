@@ -25,7 +25,8 @@ import com.xsat.bocchitherock.ui.theme.BocchiTheRockTheme
 fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(BocchiRepository()))
+    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(BocchiRepository())),
+    navigateToDetail: (String) -> Unit = {}
 ) {
     val bocchis = viewModel.bocchis.collectAsState()
     val query = viewModel.query.collectAsState().value
@@ -65,7 +66,7 @@ fun HomeScreen(
                         photoUrl = bocchi.photoUrl,
                         modifier = Modifier.fillMaxWidth(),
                         navigateToDetail = {
-                            navController.navigate("detail/${bocchi.id}")
+                            navController.navigate(Screen.DetailBocchi.createRoute(bocchi.id))
                         }
                     )
                 }
