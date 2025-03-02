@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.xsat.bocchitherock.data.BocchiRepository
-import com.xsat.bocchitherock.ui.screen.home.ViewModelFactory
+import com.xsat.bocchitherock.ui.ViewModelFactory
 import com.xsat.bocchitherock.ui.theme.BocchiTheRockTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,7 +99,7 @@ fun DetailScreen(
                     text = it.detail.replace("\\n", "\n"),
                     style = MaterialTheme.typography.bodyLarge,
                 )
-
+                Spacer(modifier = Modifier.height(80.dp))
             }
         } ?: Text(text = "Data tidak ditemukan", modifier = Modifier.padding(16.dp))
     }

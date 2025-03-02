@@ -1,10 +1,11 @@
-package com.xsat.bocchitherock.ui.screen.home
+package com.xsat.bocchitherock.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.xsat.bocchitherock.data.BocchiRepository
 import com.xsat.bocchitherock.ui.screen.detail.DetailViewModel
 import com.xsat.bocchitherock.ui.screen.favorite.FavoriteViewModel
+import com.xsat.bocchitherock.ui.screen.home.HomeViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val repository: BocchiRepository) : ViewModelProvider.Factory {
@@ -16,5 +17,4 @@ class ViewModelFactory(private val repository: BocchiRepository) : ViewModelProv
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         } as T
     }
-
 }

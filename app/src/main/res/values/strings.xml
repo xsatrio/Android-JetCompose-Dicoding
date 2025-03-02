@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">BocchiTheRock</string>
-    <string name="placeholder_search">Mau cari karakter siapa?</string>
+    <string name="placeholder_search">Search character</string>
     <string name="title_activity_bocchi_app">BocchiApp</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="title_activity_favorite_screen">FavoriteScreen</string>
+    <string name="favorite_list">Favorite List</string>
+    <string name="no_favorite">you don\'t have a favorite character :\'(</string>
 </resources>

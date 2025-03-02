@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xsat.bocchitherock.data.BocchiRepository
+import com.xsat.bocchitherock.ui.ViewModelFactory
 import com.xsat.bocchitherock.ui.components.BocchiListItem
 import com.xsat.bocchitherock.ui.components.Search
 import com.xsat.bocchitherock.ui.navigation.Screen
@@ -56,30 +57,35 @@ fun HomeScreen(
         },
         modifier = modifier
     )
-    { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
+    { innerPadding ->
+        LazyColumn(
+            state = listState,
+            contentPadding = PaddingValues(
+                top = innerPadding.calculateTopPadding(),
+                bottom = 18.dp
+            ),
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Search(
-                query = query,
-                onQueryChange = viewModel::search
-            )
-            LazyColumn(
-                state = listState,
-                contentPadding = PaddingValues(bottom = 18.dp)
-            ) {
-                items(bocchis.value.size) { index ->
-                    val bocchi = bocchis.value[index]
-                    BocchiListItem(
-                        name = bocchi.name,
-                        photoUrl = bocchi.photoUrl,
-                        modifier = Modifier.fillMaxWidth(),
-                        navigateToDetail = {
-                            navController.navigate(Screen.DetailBocchi.createRoute(bocchi.id))
-                        }
-                    )
-                }
+            item {
+                Search(
+                    query = query,
+                    onQueryChange = viewModel::search,
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp)
+                )
+            }
+
+            items(bocchis.value.size) { index ->
+                val bocchi = bocchis.value[index]
+                BocchiListItem(
+                    name = bocchi.name,
+                    photoUrl = bocchi.photoUrl,
+                    modifier = Modifier.fillMaxWidth(),
+                    navigateToDetail = {
+                        navController.navigate(Screen.DetailBocchi.createRoute(bocchi.id))
+                    }
+                )
             }
         }
     }

@@ -19,7 +19,7 @@ class FavoriteViewModel(
     init {
         viewModelScope.launch {
             repository.getFavoriteBocchi().collectLatest { favorites ->
-                _favoriteBocchi.value = favorites.filter { it.isFavorite }  // Hanya yang favorit
+                _favoriteBocchi.value = favorites.filter { it.isFavorite }
             }
         }
     }

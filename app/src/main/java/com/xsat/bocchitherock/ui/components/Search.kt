@@ -1,7 +1,6 @@
 package com.xsat.bocchitherock.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -42,14 +41,12 @@ fun Search(
         placeholder = {
             Text(stringResource(R.string.placeholder_search))
         },
-        shape = MaterialTheme.shapes.large,
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.background
         ),
         modifier = modifier
             .padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 8.dp)
             .fillMaxWidth()
-            .heightIn(min = 48.dp)
     ) {
     }
 }
