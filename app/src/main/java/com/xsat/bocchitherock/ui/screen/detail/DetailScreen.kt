@@ -7,10 +7,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -30,7 +31,14 @@ fun DetailScreen(
     viewModel: DetailViewModel = viewModel(factory = ViewModelFactory(BocchiRepository()))
 ) {
     val bocchi = viewModel.getBocchiById(id).collectAsState(initial = null).value
+    val isFavorite by viewModel.isFavorite.collectAsState()
     val scrollState = rememberScrollState()
+
+    LaunchedEffect(bocchi) {
+        bocchi?.let {
+            viewModel.updateFavoriteStatus(it.id, it.isFavorite)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -42,6 +50,20 @@ fun DetailScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            bocchi?.let {
+                FloatingActionButton(
+                    onClick = {
+                        viewModel.updateFavoriteStatus(it.id, !isFavorite)
+                    }
+                ) {
+                    Icon(
+                        imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                        contentDescription = "Favorite"
+                    )
+                }
+            }
         }
     ) { padding ->
         bocchi?.let {

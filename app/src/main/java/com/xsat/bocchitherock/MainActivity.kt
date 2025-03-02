@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.xsat.bocchitherock.ui.navigation.Screen
 import com.xsat.bocchitherock.ui.screen.about.AboutScreen
 import com.xsat.bocchitherock.ui.screen.detail.DetailScreen
+import com.xsat.bocchitherock.ui.screen.favorite.FavoriteScreen
 import com.xsat.bocchitherock.ui.screen.home.HomeScreen
 import com.xsat.bocchitherock.ui.theme.BocchiTheRockTheme
 
@@ -36,6 +37,9 @@ fun MainApp() {
         }
         composable(Screen.About.route) {
             AboutScreen(onBackClick = { navController.popBackStack() })
+        }
+        composable(Screen.Favorite.route) {
+            FavoriteScreen(onBackClick = { navController.popBackStack() })
         }
         composable(Screen.DetailBocchi.route) {
             val bocchiId = it.arguments?.getString("bocchiId") ?: ""

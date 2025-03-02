@@ -1,23 +1,24 @@
 package com.xsat.bocchitherock.ui.screen.detail
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.xsat.bocchitherock.data.BocchiRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class DetailViewModel(private val repository: BocchiRepository) : ViewModel() {
+
+    private val _isFavorite = MutableStateFlow(false)
+    val isFavorite: StateFlow<Boolean> = _isFavorite
+
     fun getBocchiById(id: String) = repository.getBocchiById(id)
-}
 
-
-
-class ViewModelFactory(private val repository: BocchiRepository) :
-    ViewModelProvider.NewInstanceFactory() {
-
-    @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(repository) as T
+    fun updateFavoriteStatus(id: String, isFavorite: Boolean) {
+        viewModelScope.launch {
+            repository.updateFavorite(id, isFavorite)
+            _isFavorite.update { isFavorite }
         }
-        throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
 }

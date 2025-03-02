@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,36 +26,45 @@ import com.xsat.bocchitherock.ui.theme.BocchiTheRockTheme
 fun HomeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(BocchiRepository())),
-    navigateToDetail: (String) -> Unit = {}
+    viewModel: HomeViewModel = viewModel(factory = ViewModelFactory(BocchiRepository()))
 ) {
     val bocchis = viewModel.bocchis.collectAsState()
     val query = viewModel.query.collectAsState().value
+    val listState = rememberLazyListState()
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        val listState = rememberLazyListState()
-        Column(modifier = modifier) {
+    Scaffold(
+        topBar = {
             TopAppBar(
                 title = { Text(text = "Bocchi The Rock") },
                 actions = {
+                    IconButton(onClick = { navController.navigate(Screen.Favorite.route) }) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Favorite",
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
                     IconButton(onClick = { navController.navigate(Screen.About.route) }) {
                         Icon(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Profile",
-                            modifier = modifier.size(32.dp)
+                            modifier = Modifier.size(28.dp)
                         )
                     }
                 }
             )
-
+        },
+        modifier = modifier
+    )
+    { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+        ) {
             Search(
                 query = query,
                 onQueryChange = viewModel::search
             )
-
             LazyColumn(
                 state = listState,
                 contentPadding = PaddingValues(bottom = 18.dp)

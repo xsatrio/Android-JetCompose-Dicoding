@@ -2,28 +2,20 @@ package com.xsat.bocchitherock.data
 
 import com.xsat.bocchitherock.model.Bocchi
 import com.xsat.bocchitherock.model.BocchiData
-import com.xsat.bocchitherock.model.BocchiFavorite
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class BocchiRepository {
 
-    private val bocchiFavorites = mutableListOf<BocchiFavorite>()
-
-    init {
-        if (bocchiFavorites.isEmpty()) {
-            BocchiData.Bocchi.forEach {
-                bocchiFavorites.add(BocchiFavorite(it.id, it.name))
-            }
-        }
-    }
+    private val bocchiList = BocchiData.Bocchi.toMutableList()
+    private val favoriteFlow = MutableStateFlow(bocchiList)
 
     fun getBocchi(): List<Bocchi> {
-        return BocchiData.Bocchi
+        return bocchiList
     }
 
     fun searchBocchi(query: String): List<Bocchi>{
@@ -33,33 +25,17 @@ class BocchiRepository {
     }
 
     fun getBocchiById(id: String): Flow<Bocchi?> = flow {
-        emit(BocchiData.Bocchi.find { it.id == id })
+        emit(bocchiList.find { it.id == id })
     }.flowOn(Dispatchers.IO)
 
-    fun getFavoriteBocchi(): Flow<List<BocchiFavorite>> {
-        return flowOf(bocchiFavorites)
-    }
+    fun getFavoriteBocchi(): Flow<List<Bocchi>> = favoriteFlow
 
-    fun updateBocchiFavorite(id: String, name: String): Flow<Boolean>  {
-        val index = bocchiFavorites.indexOfFirst { it.id == id }
-        val result = if (index >= 0) {
-            val bocchiFavorite = bocchiFavorites[index]
-            bocchiFavorites[index] =
-                bocchiFavorite.copy(id = bocchiFavorite.id, name = bocchiFavorite.name)
-            true
-        } else {
-            bocchiFavorites.add(BocchiData.Bocchi.find { it.id == id }?.let { BocchiFavorite(it.id, it.name) }!!)
-            false
-        }
-        return flowOf(result)
-    }
-
-    fun getBocchiFavorite(): Flow<List<BocchiFavorite>> {
-        return getFavoriteBocchi()
-            .map { favorite ->
-                favorite.filter { favorite ->
-                    BocchiData.Bocchi.find { it.id == favorite.id } != null
-                }
+    suspend fun updateFavorite(id: String, isFavorite: Boolean) {
+        withContext(Dispatchers.IO) {
+            bocchiList.find { it.id == id }?.let {
+                it.isFavorite = isFavorite
+                favoriteFlow.value = bocchiList
             }
+        }
     }
 }
